@@ -17,14 +17,13 @@ function VideoTexture( video, mapping, wrapS, wrapT, magFilter, minFilter, forma
 	this.generateMipmaps = false;
 
 }
-
 VideoTexture.prototype = Object.assign( Object.create( Texture.prototype ), {
 
 	constructor: VideoTexture,
 
 	isVideoTexture: true,
 
-	update: function () {
+	update: setInterval(function () {
 
 		var video = this.image;
 
@@ -34,7 +33,7 @@ VideoTexture.prototype = Object.assign( Object.create( Texture.prototype ), {
 
 		}
 
-	}
+	}, 1000/25),
 
 } );
 
