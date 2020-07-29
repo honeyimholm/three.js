@@ -2782,7 +2782,7 @@ function Texture( image, mapping, wrapS, wrapT, magFilter, minFilter, format, ty
 	Object.defineProperty( this, 'id', { value: textureId ++ } );
 
 	this.uuid = _Math.generateUUID();
-
+	this.framerate = 25;
 	this.name = '';
 
 	this.image = image !== undefined ? image : Texture.DEFAULT_IMAGE;
@@ -29178,17 +29178,23 @@ VideoTexture.prototype = Object.assign( Object.create( Texture.prototype ), {
 
 	isVideoTexture: true,
 
-	update: setInterval(function () {
+	update: (function () {
 
-		var video = this.image;
+		var prevTime = 0;
+		return function() {
+			var video = this.image;
 
-		if ( video.readyState >= video.HAVE_CURRENT_DATA ) {
+			if ( video.readyState >= video.HAVE_CURRENT_DATA ) {
+				var time = performance.now();
+				if (prevTime +  (1/this.frameRate) < time)
+				{
+					this.needsUpdate = true;
+					prevTime = time;
+				}
+			}
+		}	
 
-			this.needsUpdate = true;
-
-		}
-
-	}, 1000/25),
+	})()
 
 } );
 
