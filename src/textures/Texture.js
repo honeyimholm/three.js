@@ -28,7 +28,7 @@ function Texture( image, mapping, wrapS, wrapT, magFilter, minFilter, format, ty
 	Object.defineProperty( this, 'id', { value: textureId ++ } );
 
 	this.uuid = _Math.generateUUID();
-
+	this.framerate = 25;
 	this.name = '';
 
 	this.image = image !== undefined ? image : Texture.DEFAULT_IMAGE;
